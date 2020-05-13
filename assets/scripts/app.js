@@ -14,9 +14,9 @@ class DOMHelper {
 }
 
 class Component {
-	constructor(hostElementID, insertBefore = false) {
-		if (hostElementID) {
-			this.hostElement = document.getElementById(hostElementID);
+	constructor(hostElementId, insertBefore = false) {
+		if (hostElementId) {
+			this.hostElement = document.getElementById(hostElementId);
 		} else {
 			this.hostElement = document.body;
 		}
@@ -38,8 +38,8 @@ class Component {
 }
 
 class Tooltip extends Component {
-	constructor(closeNotifierFunction, text, hostElementID) {
-		super(hostElementID);
+	constructor(closeNotifierFunction, text, hostElementId) {
+		super(hostElementId);
 		this.closeNotifier = closeNotifierFunction;
 		this.text = text;
 		this.create();
@@ -53,10 +53,10 @@ class Tooltip extends Component {
 	create() {
 		const tooltipElement = document.createElement('div');
 		tooltipElement.className = 'card';
-		const templateElement = document.getElementById('tooltip');
-		const templateBody = document.importNode(templateElement.content, true);
-		templateBody.querySelector('p').textContent = this.text;
-		tooltipElement.append(templateBody);
+		const tooltipTemplate = document.getElementById('tooltip');
+		const tooltipBody = document.importNode(tooltipTemplate.content, true);
+		tooltipBody.querySelector('p').textContent = this.text;
+		tooltipElement.append(tooltipBody);
 
 		const hostElPosLeft = this.hostElement.offsetLeft;
 		const hostElPosTop = this.hostElement.offsetTop;
@@ -90,10 +90,8 @@ class ProjectItem {
 		if (this.hasActiveTooltip) {
 			return;
 		}
-
 		const projectElement = document.getElementById(this.id);
 		const tooltipText = projectElement.dataset.extraInfo;
-
 		const tooltip = new Tooltip(
 			() => {
 				this.hasActiveTooltip = false;
@@ -101,15 +99,19 @@ class ProjectItem {
 			tooltipText,
 			this.id
 		);
-
 		tooltip.attach();
 		this.hasActiveTooltip = true;
 	}
 
 	connectDrag() {
-		document.getElementById(this.id).addEventListener('click', (event) => {
-			event.dataTransfer('text/plain', this.id);
+		const item = document.getElementById(this.id);
+		item.addEventListener('dragstart', (event) => {
+			event.dataTransfer.setData('text/plain', this.id);
 			event.dataTransfer.effectAllowed = 'move';
+		});
+
+		item.addEventListener('dragend', (event) => {
+			console.log(event);
 		});
 	}
 
@@ -147,7 +149,7 @@ class ProjectList {
 	constructor(type) {
 		this.type = type;
 		const prjItems = document.querySelectorAll(`#${type}-projects li`);
-		for (let prjItem of prjItems) {
+		for (const prjItem of prjItems) {
 			this.projects.push(
 				new ProjectItem(
 					prjItem.id,
@@ -156,6 +158,44 @@ class ProjectList {
 				)
 			);
 		}
+		this.connectDroppable();
+	}
+
+	connectDroppable() {
+		const list = document.querySelector(`#${this.type}-projects ul`);
+
+		list.addEventListener('dragenter', (event) => {
+			if (event.dataTransfer.types[0] === 'text/plain') {
+				list.parentElement.classList.add('droppable');
+				event.preventDefault();
+			}
+		});
+
+		list.addEventListener('dragover', (event) => {
+			if (event.dataTransfer.types[0] === 'text/plain') {
+				event.preventDefault();
+			}
+		});
+
+		list.addEventListener('dragleave', (event) => {
+			if (
+				event.relatedTarget.closest(`#${this.type}-projects ul`) !== list
+			) {
+				list.parentElement.classList.remove('droppable');
+			}
+		});
+
+		list.addEventListener('drop', (event) => {
+			const prjId = event.dataTransfer.getData('text/plain');
+			if (this.projects.find((p) => p.id === prjId)) {
+				return;
+			}
+			document
+				.getElementById(prjId)
+				.querySelector('button:last-of-type')
+				.click();
+			list.parentElement.classList.remove('droppable');
+		});
 	}
 
 	setSwitchHandlerFunction(switchHandlerFunction) {

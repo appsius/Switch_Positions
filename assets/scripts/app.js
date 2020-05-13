@@ -83,6 +83,7 @@ class ProjectItem {
 		this.updateProjectListsHandler = updateProjectListsFunction;
 		this.connectMoreInfoButton();
 		this.connectSwitchButton(type);
+		this.connectDrag();
 	}
 
 	showMoreInfoHandler() {
@@ -103,6 +104,13 @@ class ProjectItem {
 
 		tooltip.attach();
 		this.hasActiveTooltip = true;
+	}
+
+	connectDrag() {
+		document.getElementById(this.id).addEventListener('click', (event) => {
+			event.dataTransfer('text/plain', this.id);
+			event.dataTransfer.effectAllowed = 'move';
+		});
 	}
 
 	connectMoreInfoButton() {
@@ -176,23 +184,6 @@ class App {
 		finishedProjectsList.setSwitchHandlerFunction(
 			activeProjectsList.addProject.bind(activeProjectsList)
 		);
-		const someScript = document.createElement('script');
-		someScript.textContent = "alert('Hi how are you?')";
-		document.head.append(someScript);
-
-		const timerID = setTimeout(this.startAnalytics, 3000);
-		document
-			.getElementById('stop-analytics-btn')
-			.addEventListener('click', () => {
-				clearTimeout(timerID);
-			});
-	}
-
-	static startAnalytics() {
-		const analyticScript = document.createElement('script');
-		analyticScript.src = 'assets/scripts/analytics.js';
-		analyticScript.defer = true;
-		document.head.append(analyticScript);
 	}
 }
 

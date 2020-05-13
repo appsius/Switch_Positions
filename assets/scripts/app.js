@@ -176,6 +176,20 @@ class App {
 		finishedProjectsList.setSwitchHandlerFunction(
 			activeProjectsList.addProject.bind(activeProjectsList)
 		);
+		const someScript = document.createElement('script');
+		someScript.textContent = "alert('Hi how are you?')";
+		document.head.append(someScript);
+
+		document
+			.getElementById('start-analytics-btn')
+			.addEventListener('click', this.startAnalytics);
+	}
+
+	static startAnalytics() {
+		const analyticScript = document.createElement('script');
+		analyticScript.src = 'assets/scripts/analytics.js';
+		analyticScript.defer = true;
+		document.head.append(analyticScript);
 	}
 }
 

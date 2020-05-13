@@ -26,26 +26,24 @@
 // 	console.log(event);
 // });
 
-// const button = document.querySelector('button');
-// const form = document.querySelector('form');
-// const div = document.querySelector('div');
+const button = document.querySelector('button');
+const form = document.querySelector('form');
+const div = document.querySelector('div');
 
-// form.addEventListener('submit', (event) => {
-// 	event.preventDefault();
-// 	console.log(event);
-// });
+form.addEventListener('submit', (event) => {
+	event.preventDefault();
+	console.log(event);
+});
 
-// div.addEventListener('mouseenter', () => {
-// 	console.log('DIV CLICKED!');
-// 	console.log(event);
-// });
+div.addEventListener('mouseenter', () => {
+	console.log('DIV CLICKED!');
+	console.log(event);
+});
 
-// button.addEventListener('mouseenter', (event) => {
-// 	event.stopPropagation();
-// 	event.stopImmediatePropagation();
-// 	console.log('BUTTON CLICKED!');
-// 	console.log(event);
-// });
+button.addEventListener('click', (event) => {
+	console.log('BUTTON CLICKED!');
+	console.log(event);
+});
 
 const listItems = document.querySelectorAll('li');
 const list = document.querySelector('ul');
@@ -60,4 +58,6 @@ list.addEventListener('click', (event) => {
 	// console.log(event.currentTarget);
 	// event.target.classList.toggle('highlight');
 	event.target.closest('li').classList.toggle('highlight');
+	// form.submit();
+	button.click();
 });

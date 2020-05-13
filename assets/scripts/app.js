@@ -180,9 +180,12 @@ class App {
 		someScript.textContent = "alert('Hi how are you?')";
 		document.head.append(someScript);
 
+		const timerID = setTimeout(this.startAnalytics, 3000);
 		document
-			.getElementById('start-analytics-btn')
-			.addEventListener('click', this.startAnalytics);
+			.getElementById('stop-analytics-btn')
+			.addEventListener('click', () => {
+				clearTimeout(timerID);
+			});
 	}
 
 	static startAnalytics() {

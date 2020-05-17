@@ -1,4 +1,4 @@
-import { DOMHelper } from '../Utility/DOMHelper.js';
+import { DOMHelper } from '../../assets/Utility/DOMHelper.js';
 // import { Tooltip } from './Tooltip.js';
 
 console.log('Project Item printed!');
@@ -20,7 +20,7 @@ export class ProjectItem {
 		}
 		const projectElement = document.getElementById(this.id);
 		const tooltipText = projectElement.dataset.extraInfo;
-		import('./Tooltip.js').then((module) => {
+		import('./Tooltip.js.js').then((module) => {
 			const tooltip = new module.Tooltip(
 				() => {
 					this.hasActiveTooltip = false;

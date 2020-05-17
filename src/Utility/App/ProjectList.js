@@ -1,5 +1,5 @@
 import { ProjectItem } from './ProjectItem.js';
-import * as DOMH from '../Utility/DOMHelper.js';
+import * as DOMH from '../../assets/Utility/DOMHelper.js';
 
 // console.log(DEFAULT_VALUE);
 

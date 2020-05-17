@@ -1,0 +1,14 @@
+{
+  "name": "switch_positions",
+  "version": "1.0.0",
+  "description": "Practising Advanced Javascript Concepts",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Appsius",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^7.0.0"
+  }
+}

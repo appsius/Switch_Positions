@@ -1,11 +1,13 @@
 import { ProjectList } from './App/ProjectList.js';
 
+// eslint-disable-next-line no-undef
 globalThis.DEFAULT_VALUE = 'APPSIUS';
 
 class App {
 	static init() {
 		const activeProjectsList = new ProjectList('active');
 		const finishedProjectsList = new ProjectList('finished');
+
 		activeProjectsList.setSwitchHandlerFunction(
 			finishedProjectsList.addProject.bind(finishedProjectsList)
 		);

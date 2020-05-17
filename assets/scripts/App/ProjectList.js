@@ -62,7 +62,7 @@ export class ProjectList {
 
 	addProject(project) {
 		this.projects.push(project);
-		moveElement(project.id, `#${this.type}-projects ul`);
+		DOMH.moveElement(project.id, `#${this.type}-projects ul`);
 		project.update(this.switchProject.bind(this), this.type);
 	}
 
